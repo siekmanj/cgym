@@ -7,9 +7,10 @@ MJINC=-I$(MJDIR)/include -L$(MJDIR)/bin
 MJKEY=$(MJDIR)/mjkey.txt
 
 
-SRC=mj_env/*.c #cassie_env/*.c
-INC=-I./include -I ./mj_env/ $(MJINC)
+SRC=mj_env/*.c
+INC=$(MJINC) -Iinclude -Imj_env/
 LIB=$(MJLIB)
 
 libout:
+	echo $(INC)
 	$(CC) -shared -o libcgym.so -fPIC $(SRC) $(INC) -DMJKEYPATH=$(MJKEY) $(LIB)
