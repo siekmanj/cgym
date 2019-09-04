@@ -19,6 +19,6 @@ typedef struct data {
 } Data;
 
 
-Environment create_mujoco_env(char *, float (*step)(Environment, float *), int);
+Environment create_mujoco_env(const char *, float (*step)(Environment, float *), int);
 
 #endif

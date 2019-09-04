@@ -46,8 +46,8 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_half_cheetah_env(){
-  Environment ret = create_mujoco_env("./assets/half_cheetah.xml", step, 1);
+Environment create_half_cheetah_env(const char *xmlfile){
+  Environment ret = create_mujoco_env(xmlfile, step, 1);
   ret.alive_bonus = 0.0f;
   ret.frameskip = 5;
   return ret;

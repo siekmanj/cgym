@@ -56,8 +56,8 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_ant_env(){
-  Environment ret = create_mujoco_env("./assets/ant.xml", step, 2);
+Environment create_ant_env(const char *xmlfile){
+  Environment ret = create_mujoco_env(xmlfile, step, 2);
   ret.alive_bonus = 1.0f;
   ret.frameskip = 5;
   return ret;

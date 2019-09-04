@@ -47,8 +47,8 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_walker2d_env(){
-  Environment ret = create_mujoco_env("./assets/walker2d.xml", step, 1);
+Environment create_walker2d_env(const char *xmlfile){
+  Environment ret = create_mujoco_env(xmlfile, step, 1);
   ret.alive_bonus = 1.0f;
   ret.frameskip = 4;
   return ret;

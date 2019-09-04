@@ -59,8 +59,8 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_humanoid_env(){
-  Environment ret = create_mujoco_env("./assets/humanoid.xml", step, 2);
+Environment create_humanoid_env(const char *xmlfile){
+  Environment ret = create_mujoco_env(xmlfile, step, 2);
   ret.alive_bonus = 5.0f;
   ret.frameskip = 5;
   return ret;

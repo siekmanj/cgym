@@ -99,7 +99,7 @@ static void close(Environment env){
   }
 }
 
-Environment create_mujoco_env(char *xml, float (*step)(Environment, float *), int qpos_start){
+Environment create_mujoco_env(const char *xml, float (*step)(Environment, float *), int qpos_start){
   Environment env;
   glfwInit();
 

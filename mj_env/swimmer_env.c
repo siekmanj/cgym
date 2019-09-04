@@ -43,8 +43,8 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_swimmer_env(){
-  return create_mujoco_env("./assets/swimmer.xml", step, 2);
+Environment create_swimmer_env(const char *xmlfile){
+  return create_mujoco_env(xmlfile, step, 2);
 }
 
 
