@@ -43,8 +43,23 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_swimmer_env(const char *xmlfile){
-  return create_mujoco_env(xmlfile, step, 2);
+Environment create_swimmer_env(){
+
+#ifndef MJASSETS
+  fprintf(stderr, "Please #define the folder in which to find mujoco xml files with MJASSETS.\n");
+  exit(1);
+#endif
+
+#ifndef WIN32
+  char buff[strlen(def2str(MJASSETS)) + strlen("/swimmer.xml") + 1];
+  strcpy(buff, def2str(MJASSETS));
+  strcat(buff, "/swimmer.xml");
+
+#else
+  printf("Add windows filepath support!\n");
+#endif
+
+  return create_mujoco_env(buff, step, 2);
 }
 
 

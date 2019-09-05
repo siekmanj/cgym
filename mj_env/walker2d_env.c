@@ -47,8 +47,22 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_walker2d_env(const char *xmlfile){
-  Environment ret = create_mujoco_env(xmlfile, step, 1);
+Environment create_walker2d_env(){
+
+#ifndef MJASSETS
+  fprintf(stderr, "Please #define the folder in which to find mujoco xml files with MJASSETS.\n");
+  exit(1);
+#endif
+
+#ifndef WIN32
+  char buff[strlen(def2str(MJASSETS)) + strlen("/walker2d.xml") + 1];
+  strcpy(buff, def2str(MJASSETS));
+  strcat(buff, "/walker2d.xml");
+
+#else
+  printf("Add windows filepath support!\n");
+#endif
+  Environment ret = create_mujoco_env(buff, step, 1);
   ret.alive_bonus = 1.0f;
   ret.frameskip = 4;
   return ret;

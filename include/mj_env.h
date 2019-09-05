@@ -1,10 +1,12 @@
 #ifndef MJ_ENV_H
 #define MJ_ENV_H
 
-#include <mujoco.h>
+#include <stdio.h>
+#include <string.h>
+
 #include <glfw3.h>
 #include <env.h>
-#include <stdio.h>
+#include <mujoco.h>
 
 typedef struct data {
   mjModel *model;
@@ -17,6 +19,8 @@ typedef struct data {
   int render_setup;
   int qpos_start;
 } Data;
+
+
 
 
 Environment create_mujoco_env(const char *, float (*step)(Environment, float *), int);

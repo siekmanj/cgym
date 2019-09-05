@@ -47,8 +47,23 @@ static float step(Environment env, float *action){
   return reward;
 }
 
-Environment create_hopper_env(const char *xmlfile){
-  Environment ret = create_mujoco_env(xmlfile, step, 1);
+Environment create_hopper_env(){
+
+#ifndef MJASSETS
+  fprintf(stderr, "Please #define the folder in which to find mujoco xml files with MJASSETS.\n");
+  exit(1);
+#endif
+
+#ifndef WIN32
+  char buff[strlen(def2str(MJASSETS)) + strlen("/hopper.xml") + 1];
+  strcpy(buff, def2str(MJASSETS));
+  strcat(buff, "/hopper.xml");
+
+#else
+  printf("Add windows filepath support!\n");
+#endif
+
+  Environment ret = create_mujoco_env(buff, step, 1);
   ret.alive_bonus = 1.0f;
   ret.frameskip = 4;
   return ret;

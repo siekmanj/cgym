@@ -28,12 +28,8 @@ typedef struct env_ {
   
 } Environment;
 
-/* Mujoco envs */
-Environment create_ant_env(const char *);
-Environment create_hopper_env(const char *);
-Environment create_half_cheetah_env(const char *);
-Environment create_humanoid_env(const char *);
-Environment create_walker2d_env(const char *);
+#define tostr(def) #def
+#define def2str(def) tostr(def)
 
 #endif
 

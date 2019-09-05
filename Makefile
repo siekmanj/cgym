@@ -1,16 +1,28 @@
 CC=gcc
+INC=-Iinclude
+ASSETS=$(shell pwd)/assets
 
-# The below variables may need to change depending on your mujoco install location.
 MJDIR=$(HOME)/.mujoco/mujoco200_linux
-MJLIB=-lmujoco200 -lGL -lglew $(MJDIR)/bin/libglfw.so.3
-MJINC=-I$(MJDIR)/include -L$(MJDIR)/bin
 MJKEY=$(MJDIR)/mjkey.txt
+MJSRC=mj_env/*.c
+MJINC=-I$(MJDIR)/include $(INC) -L$(MJDIR)/bin
+MJLIB=-lmujoco200 -lGL -lglew $(MJDIR)/bin/libglfw.so.3
+
+mj_envs: $(MJSRC)
+	$(CC) -o libmjenvs.so -shared -fPIC $(MJSRC) $(MJINC) -DMJKEYPATH=$(MJKEY) -DMJASSETS=$(ASSETS) $(MJLIB)
 
 
-SRC=mj_env/*.c
-INC=$(MJINC) -Iinclude -Imj_env/
-LIB=$(MJLIB)
+CASSIEDIR=$(HOME)/cassie-mujoco-sim
+CASSIESRC=cassie_env/*.c
+CASSIEINC=-I$(CASSIEDIR)/include $(INC) $(MJINC)
+CASSIELIB=-L$(CASSIEDIR) -lcassiemujoco
 
-libout:
-	echo $(INC)
-	$(CC) -shared -o libcgym.so -fPIC $(SRC) $(INC) -DMJKEYPATH=$(MJKEY) $(LIB)
+cassie_envs: $(CASSIESRC)
+	$(CC) -o libcassieenvs.so -shared -fPIC $(CASSIESRC) $(CASSIEINC) -DMJKEYPATH=$(MJKEY) $(CASSIELIB) -Wl,-rpath=$(CASSIEDIR)
+
+cassie_demo: demo/cassie_demo.c
+	$(CC) -o test -Iinclude -I. -L. demo/cassie_demo.c -lcassieenvs
+
+mj_demo: demo/mj_demo.c
+	$(CC) -o test -Iinclude -I. -I$(MJDIR)/include -L. demo/mj_demo.c -lmjenvs
+

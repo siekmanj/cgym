@@ -103,7 +103,6 @@ Environment create_mujoco_env(const char *xml, float (*step)(Environment, float 
   Environment env;
   glfwInit();
 
-  // activate software
   mj_activate(def2str(MJKEYPATH));
 
   env.dispose = dispose;
