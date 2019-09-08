@@ -505,19 +505,28 @@ Environment create_cassie_env(){
 #ifndef USE_CASSIE_VIS
   glfwInit();
 #endif
-  printf("GOT KEY: '%s'\n", def2str(MJKEYPATH));
-	setenv("MUJOCO_KEY_PATH", def2str(MJKEYPATH), 0);
-	setenv("CASSIE_MODEL_PATH", "assets/cassie.xml", 1);
 
-  const char modelfile[] = "assets/cassie.xml";
-	const char trajfile[]  = "assets/stepdata.bin";
+#ifndef WIN32
+  char modelfile[strlen(def2str(CASSIEASSETS)) + strlen("/cassie.xml") + 1];
+  strcpy(modelfile, def2str(CASSIEASSETS));
+  strcat(modelfile, "/cassie.xml");
+
+  char trajfile[strlen(def2str(CASSIEASSETS)) + strlen("/stepdata.bin") + 1];
+  strcpy(trajfile, def2str(CASSIEASSETS));
+  strcat(trajfile, "/stepdata.bin");
+#else
+  printf("Add windows filepath support!\n");
+  exit(1);
+#endif
+  
+	setenv("MUJOCO_KEY_PATH", def2str(MJKEYPATH), 0);
+	setenv("CASSIE_MODEL_PATH", modelfile, 1);
 
   if(!cassie_mujoco_init(modelfile)){
     //printf("WARNING: create_cassie_env(): cassie_mujoco_init() returned 0.\n");
   }
 
   cassie_sim_t *c = cassie_sim_init(modelfile);
-  printf("made it here\n");
 
   Environment env;
   

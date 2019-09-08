@@ -18,7 +18,7 @@ CASSIEINC=-I$(CASSIEDIR)/include $(INC) $(MJINC)
 CASSIELIB=-L$(CASSIEDIR) -lcassiemujoco
 
 cassie_envs: $(CASSIESRC)
-	$(CC) -o libcassieenvs.so -shared -fPIC $(CASSIESRC) $(CASSIEINC) -DMJKEYPATH=$(MJKEY) $(CASSIELIB) -Wl,-rpath=$(CASSIEDIR)
+	$(CC) -o libcassieenvs.so -shared -fPIC $(CASSIESRC) $(CASSIEINC) -DMJKEYPATH=$(MJKEY) -DCASSIEASSETS=$(ASSETS) $(CASSIELIB) -Wl,-rpath=$(CASSIEDIR)
 
 cassie_demo: demo/cassie_demo.c
 	$(CC) -o test -Iinclude -I. -L. demo/cassie_demo.c -lcassieenvs
